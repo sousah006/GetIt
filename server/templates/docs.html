@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Page</title>
+    <!-- Link para o mesmo arquivo CSS do TailwindCSS utilizado em features.html -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Estilos copiados de features.html */
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8; /* Aumenta o espaçamento entre linhas */
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: -1;
+        }
+
+        .container {
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            border-radius: 10px;
+            padding: 30px; /* Aumenta o espaçamento ao redor do conteúdo */
+            margin: 40px auto; /* Aumenta a margem para mais espaço fora do container */
+            max-width: 800px;
+        }
+
+        h1, h2, h3 {
+            color: white;
+            margin-bottom: 20px; /* Aumenta a margem inferior para mais espaço entre títulos e texto */
+        }
+
+        p, ul, li {
+            color: #a0aec0;
+            margin-bottom: 20px; /* Aumenta a margem inferior para mais espaço entre parágrafos e listas */
+        }
+
+        a {
+            color: #63b3ed;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <!-- Padrão de fundo similar a features.html -->
+    <div class="background-pattern"></div>
+    <!-- Cabeçalho padrão similar a features.html -->
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">Documentation Page</h1>
+    </header>
+    <!-- Conteúdo do documento -->
+    <div class="container">
+        <h1>Documentation Page</h1>
+        <p>Welcome to the documentation page of GetIt repository. Here you will find detailed information about using our platform:</p>
+
+        <h2>Learn how to use the site</h2>
+        <p>All you need to do is click on the button, "How to use", before login in</p>
+
+        <h2>2. User Manual</h2>
+        <p>Discover how to navigate through GetIt and utilize its features.</p>
+
+        <h2>4. Troubleshooting</h2>
+        <p>Common issues and their solutions while using GetIt on the feedback pop-up</p>
+
+        <h2>5. Contact Support</h2>
+        <p>Reach out to our support team for any further assistance in the page ContactUs.</p>
+    </div>
+    <!-- Botão de voltar semelhante ao de features.html -->
+    <a href="{{ url_for('main') }}" class="back-button">Back</a>
+</body>
+</html>

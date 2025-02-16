@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/StyleMain.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login-popup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylebar.css') }}">
+    <script src="{{ url_for('static', filename='js/scriptmain.js') }}"></script>
+
+    <title>Get It | PAP PROJECT</title>
+</head>
+<body>
+    {% if session.logged_in %}
+    <!-- Container de vídeo para aplicar o filtro de brilho -->
+    <div id="video-container">
+        <video id="video-background" autoplay muted loop>
+            <source src="{{ url_for('static', filename='images/GetIt.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    {% endif %}
+
+    <!-- Barra de navegação -->
+    <nav>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo2.png') }}">
+        </div>
+
+        <ul class="nav-links">
+            <li class="link"><a href="#">Home</a></li>
+            <li id="link1" class="link"><a href="#">Features</a></li>
+            <li id="link2" class="link"><a href="#">Pricing</a></li>
+            <li id="link3" class="link"><a href="#">About</a></li>
+            {% if is_admin %}
+            <li id="link3" class="link"><a href="feedbacks">Feedbacks</a></li>
+            <li id="link3" class="link"><a href="plans">User Plans</a></li>
+            <li id="link3" class="link"><a href="WaitingUsers">WaitingUsers</a></li>
+            {% endif %}
+        </ul>
+        
+
+        {% if not session.logged_in %}
+        <button class="btn" onclick="openLoginPopup()">LOGIN</button>
+        {% endif %}
+    </nav>
+
+    {% if 'logged_in' in session and session['logged_in'] %}
+    <div id="sidebar" class="sidebar">
+        <div class="logo-details">
+          <i class="bx bx-menu" id="btn" onclick="toggleSidebar()"></i>
+        </div>
+      <ul class="nav-list">
+        <li>
+          <i class="bx bx-search"></i>
+          <input type="text" placeholder="Search..." />
+          <span class="tooltip">Search</span>
+        </li>
+        {% if is_admin %}
+        <li>
+            <a href="{{ url_for('admin') }}" id="dashboardLink">
+                <i class="bx bx-grid-alt"></i>
+                <span class="links_name">Dashboard</span>
+            </a>
+            <span class="tooltip">Dashboard</span>
+        </li>
+        {% endif %}
+        <li>
+            {% if 'username' in session %}
+            <a href="#" onclick="openUserPopup('{{ session['username'] }}')">
+                <i class="bx bx-user"></i>
+                <span id="sidebar-username" class="links_name">{{ session['username'] }}</span>
+            </a>
+            <span class="tooltip">{{ session['username'] }}</span>
+            {% endif %}
+        </li>
+        <li>
+            <a href="{{ url_for('saved') }}">
+                <i class="bx bx-heart"></i>
+                <span class="links_name">Saved</span>
+            </a>
+            <span class="tooltip">Saved</span>
+        </li>
+      
+        <li>
+            
+            {% if is_gold_plan_user or is_diamond_plan_user or is_basic_plan_user %}
+            <a href="{{ url_for('vipchat') }}" id="vip-chat-sidebar-btn">
+                <i class="bx bx-diamond"></i>
+                <span class="links_name">VIP Chat</span>
+                <span class="tooltip">VIP Chat</span>
+            </a>
+            {% endif %}
+        </li>
+        
+
+        
+        <li>
+            <a href="{{ url_for('chat') }}" id="chat-sidebar-btn">
+                <i class="bx bx-message-square-dots"></i> 
+                <span class="links_name">Community Chat</span>
+            </a>
+            <span class="tooltip">Community Chat</span>
+        </li>
+
+        <li id="order-projects-li" style="display: none;">
+            <a href="{{ url_for('order_projects') }}" id="order-projects-sidebar-btn">
+                <i class="bx bx-file"></i>
+                <span class="links_name">Order Projects</span>
+            </a>
+            <span class="tooltip">Order Projects</span>
+        </li>
+        
+        
+        <li>
+            <a href="#" onclick="openFeedbackPopup()">
+                <i class="bx bx-message"></i>
+                <span class="links_name">Feedback</span>
+            </a>
+            <span class="tooltip">Feedback</span>
+        </li>
+        <li>
+          <a href="#" id="logout-sidebar-btn" onclick="logout()">
+            <i class="bx bx-log-out"></i> 
+            <span class="links_name">Logout</span>
+          </a>
+          <span class="tooltip">Logout</span>
+        </li>
+      </ul>
+    </div>
+    
+    {% else %}
+    <!-- Caso o usuário não esteja logado, não exibe a barra de navegação -->
+    {% endif %}
+
+    <header class="container">
+        <div class="content">
+            <span class="blur"></span>
+            {% if not session.logged_in %}
+            <h4>PAP Project 2023/24</h4>
+            <h1>Hi, <span>Wellcome to our</span> Web Repository.</h1>
+            <p>
+                Welcome to GetIt, this is an online platform that offers a vast repository of projects 
+                already developed, all organized and ready to be downloaded and extracted!
+            </p>
+            {% endif %}
+            {% if not session.logged_in %}
+            <button class="btn" onclick="openHowToUsePopup()">How to use</button>
+            {% endif %}
+        </div>
+
+        {% if not session.logged_in %}
+        <div class="image">
+            <img src="{{ url_for('static', filename='images/GetIt.png') }}">
+        </div>
+        {% endif %}
+    </header>
+
+    <section class="container">
+        <h2 class="header">OUR FEATURES</h2>
+        <div class="features">
+            <div class="card">
+                <span><i class="ri-money-dollar-box-line"></i></span>
+                <h4>Game Project</h4>
+                <p>
+                    Wide variety of gaming-related products.
+                </p>
+                <a href="{{ url_for('index1') }}">Join Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+            <div class="card">
+                <span><i class="ri-bug-line"></i></span>
+                <h4>Web Pages</h4>
+                <p>
+                    Web pages for many varieties of projects.
+                </p>
+                <a href="{{ url_for('index2') }}">Join Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+           
+            <div class="card">
+                <span><i class="ri-history-line"></i></span>
+                <h4>Pro & Elite Codes</h4>
+                <p>
+                    Advanced and professional codes for Vip's
+                </p>
+                <a href="{{ url_for('choose_index') }}">Join Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+          
+            <div class="card">
+                <span><i class="ri-shake-hands-line"></i></span>
+                <h4>Templates</h4>
+                <p>
+                   Pre designed models for digital projects
+                </p>
+                <a href="{{ url_for('index3') }}">Join Now <i class="ri-arrow-right-line"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="header">PROJECT PRICING PLANS</h2>
+        <p class="sub-header">
+            Our pricing plans come with various membership tiers, each tailored to cater to different projects and class+ code types.
+        </p>
+        <div class="pricing">
+            <div class="card">
+                <div class="content">
+                    <h4>Basic Plan</h4>
+                    <h3>5€</h3>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Pro codes
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                       Vip Chat
+                    </p>
+                </div>
+                {% if not session.logged_in %}
+                <p>ALERT: The login is necessary to access any type of plan.</p>
+                {% endif %}
+                {% if session.logged_in %}
+                <button class="btn" onclick="openWaitingBasicPlanPopup()">Join Now</button>
+                {% endif %}
+            </div>
+            <div class="card">
+                <div class="content">
+                    <h4>Gold Plan</h4>
+                    <h3>10€</h3>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Pro codes
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        VIP Chat
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Order Projects
+                    </p>
+                </div>
+                {% if not session.logged_in %}
+                <p>ALERT: The login is necessary to access any type of plan.</p>
+                {% endif %}
+                {% if session.logged_in %}
+                <button class="btn" onclick="openGoldPlanPopup()">Join Now</button>
+                {% endif %}
+            </div>
+            <div class="card">
+                <div class="content">
+                    <h4>Diamond Plan</h4>
+                    <h3>15€</h3>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Pro Codes 
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Elite Codes 
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        VIP Chat
+                    </p>
+                    <p>
+                        <i class="ri-checkbox-circle-line"></i>
+                        Order Projects
+                    </p>
+                  
+                   
+                </div>
+                {% if not session.logged_in %}
+                <p>ALERT:The login is necessary to access any type of plan.</p>
+                {% endif %}
+                {% if session.logged_in %}
+                <button class="btn" onclick="openDiamondPlanPopup()">Join Now</button>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+   
+    <br><br>
+    <footer class="container">
+        <span class="blur"></span>
+        <span class="blur"></span>
+        <div class="column">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo2.png') }}">
+            </div> 
+            <p>Follow me on my social medias!</p>
+            <p>Feelfree to make any questions and feel comfortable to share your opinions!</p>
+            <div class="socials">
+                <a href="https://www.youtube.com/channel/UCXeDUoZV4woAOIrauAuAgyg"><i class="ri-youtube-line"></i></a>
+                <a href="https://www.instagram.com/souzza_006/"><i class="ri-instagram-line"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100017025884675"><i class="ri-facebook-line"></i></a>
+            </div>
+        </div>
+        <div class="column">
+            <h4>Product</h4>
+            <a href="{{ url_for('security') }}">Security</a>
+            <a href="{{ url_for('resources') }}">Resources</a>
+            <a href="{{ url_for('features') }}">Features</a>
+            
+
+        </div>
+
+        <div class="column">
+            <h4>Support</h4>
+            <a href="{{ url_for('docs') }}">Docs</a>
+            <a href="{{ url_for('contactus') }}">Contact us</a>
+           
+        </div>
+
+        <div class="column">
+            <h4>Company</h4>
+            <a href="{{ url_for('aboutus') }}">About</a>
+            <a href="{{ url_for('index_shop') }}">Shop</a>
+        </div>
+    </footer>
+
+    <div class="copyright">
+        Copyright © 2023 André Sousa. All Rights Reserved.
+    </div>
+
+    <script>
+        // Adiciona evento de clique ao item da barra de pesquisa para focar na barra de pesquisa
+        document.querySelector('.nav-list li').addEventListener('click', function() {
+            // Seleciona a barra de pesquisa
+            var searchBar = document.querySelector('input[type="text"]');
+            // Foca na barra de pesquisa
+            searchBar.focus();
+        });
+
+        // Adiciona evento de tecla pressionada ao campo de entrada da barra de pesquisa
+        document.querySelector('input[type="text"]').addEventListener('keypress', function(event) {
+            // Verifica se a tecla pressionada é a tecla "Enter" (código 13)
+            if (event.keyCode === 13) {
+                // Obtém o valor digitado no campo de entrada da barra de pesquisa
+                var searchTerm = this.value.trim();
+                // Realiza a pesquisa (por exemplo, redireciona para a página de resultados de pesquisa)
+                // Por enquanto, vamos apenas exibir o termo de pesquisa no console
+                console.log('Search term:', searchTerm);
+                // Você pode adicionar sua lógica de pesquisa aqui
+            }
+        });
+
+        // Adiciona evento para garantir que o vídeo volte a tocar quando acabar
+        document.getElementById('video-background').addEventListener('ended', function() {
+            this.play();
+        }, false);
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var isGoldPlanUser = {{ 'true' if is_gold_plan_user else 'false' }};
+            var isDiamondPlanUser = {{ 'true' if is_diamond_plan_user else 'false' }};
+            
+            // Verifica se o usuário é Gold Plan ou Diamond Plan e exibe o ícone correspondente
+            if (isGoldPlanUser || isDiamondPlanUser) {
+                var orderProjectsLi = document.getElementById('order-projects-li');
+                if (orderProjectsLi) {
+                    orderProjectsLi.style.display = 'block';
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+    var isGoldPlanUser = {{ 'true' if is_gold_plan_user else 'false' }};
+    var isDiamondPlanUser = {{ 'true' if is_diamond_plan_user else 'false' }};
+    var isBasicPlanUser = {{ 'true' if is_basic_plan_user else 'false' }};
+    
+    // Exibir o botão VIP Chat se o usuário for Gold Plan, Diamond Plan ou Basic Plan
+    if (isGoldPlanUser || isDiamondPlanUser || isBasicPlanUser) {
+        var vipChatBtn = document.getElementById('vip-chat-sidebar-btn');
+        if (vipChatBtn) {
+            vipChatBtn.style.display = 'flex'; // Alterado para 'flex' para respeitar estilos de flexbox
+        }
+    }
+});
+
+    </script>
+</body>
+</html>

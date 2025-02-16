@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess-The-Word</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Adiciona um fundo escuro translúcido */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra suave para destacar o conteúdo */
+        }
+        .game-video {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Evita que o vídeo ultrapasse os limites do contêiner */
+        }
+        .text-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Sombra no título para destacar */
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            z-index: 100; /* Garante que o botão esteja acima de outros elementos */
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess-The-Word</h1>
+
+        <div class="game-video">
+            <video controls class="game-video">
+                <source src="{{ url_for('static', filename='images/guesstheword.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <p>"The Guess The Word game concluded with the correct word, sparking cheers of victory."</p>
+            <p><strong>Details:</strong> GuessTheWord</p>
+        </div>
+
+        <div class="credits">
+            <p>GetIt</p>
+            <p>&copy; 2024 Guess-The-Word. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index1') }}" class="back-button">Back</a>
+</body>
+</html>

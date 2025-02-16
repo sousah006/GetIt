@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Chat</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            color: #cbd5e0;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(to right, #1a202c, #2d3748, #1a202c);
+            background-size: cover;
+            position: relative;
+        }
+
+        /* Detalhes de fundo */
+        .background-pattern {
+            pointer-events: none; /* Adicionado para permitir eventos de clique nos elementos abaixo */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: 0;
+        }
+
+        #main-container {
+            width: 100%;
+            max-width: 68%;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+            max-height: calc(100vh - 160px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            border: 3px solid #1a202c; /* Azul escuro */
+            z-index: 1; /* Ajustado o z-index para estar acima do background-pattern */
+        }
+
+        #messages {
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 100%;
+            max-height: calc(100vh - 220px);
+            overflow-y: auto;
+            border: 3px solid #1a202c; /* Azul escuro */
+            
+        }
+
+        .message-container {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .own-message-container {
+            justify-content: flex-end;
+        }
+
+        .other-message-container {
+            justify-content: flex-start;
+        }
+
+        .message {
+            position: relative;
+            max-width: 70%;
+            padding: 10px;
+            background-color: #4a5568;
+            color: white;
+            border-radius: 8px;
+            word-wrap: break-word;
+            margin-left: 40px;
+            margin-right: 70px;
+            border: 1px solid #2d3748; /* Added border style */
+        }
+
+        .message-info {
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .message-content {
+            word-wrap: break-word;
+        }
+
+        .message-checkbox {
+            position: absolute;
+            top: 10px;
+            left: -30px;
+        }
+
+        .delete-mode .message-checkbox {
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 999px;
+            margin-left: 8px;
+            border: 3px solid #1a202c; /* Azul escuro */
+            background-color: #2d3748;
+            color: white;
+        }
+
+        .file-input-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #4a5568;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .file-label:hover {
+            background-color: #2d3748;
+        }
+
+        .image-preview,
+        .gift-preview {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .image-selected-message {
+            font-size: 0.7rem;
+            color: #38a169;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+
+        .send-button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #0f5dc3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+<div id="main-container">
+    <br>
+    <h1 class="text-center mb-4 text-3xl text-white">VIP Chat</h1>
+   
+    <!-- Mensagens do Chat -->
+    <div id="messages">
+        {% if is_authorized %}
+            {% for message in messages %}
+                <div class="message-container {% if message.user_id == current_user.id %} own-message-container {% else %} other-message-container {% endif %}" data-id="{{ message.id }}">
+                    <div class="message bg-gray-700 text-white p-3 rounded-lg">
+                        <div class="message-info text-sm text-gray-400 mb-1">
+                            <strong>{{ message.user.username }}</strong> - {{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}
+                        </div>
+                        {% if message.image_filename %}
+                            <div class="flex items-center mb-2">
+                                <img src="{{ url_for('uploads', filename='vipphotos/' ~ message.image_filename) }}" alt="Image" class="image-preview rounded-lg">
+                            </div>
+                            <div class="image-selected-message text-xs text-green-500">Image selected: {{ message.image_filename }}</div>
+                        {% endif %}
+                        {% if message.gift_filename %}
+                            <div class="flex items-center mb-2">
+                                <img src="{{ url_for('uploads', filename='vipphotos/' ~ message.gift_filename) }}" alt="Gift" class="gift-preview rounded-lg">
+                            </div>
+                            <div class="image-selected-message text-xs text-green-500">Gift selected: {{ message.gift_filename }}</div>
+                        {% endif %}
+                        <div class="message-content">
+                            {{ message.message }}
+                        </div>
+                        <input type="checkbox" class="message-checkbox hidden" data-id="{{ message.id }}">
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="container mx-auto p-8">
+                <p class="text-red-600 text-xl">You are not authorized to access VIP Chat.</p>
+            </div>
+        {% endif %}
+    </div>
+
+   <!-- Formulário de Envio -->
+{% if is_authorized %}
+<form id="chat-form" action="/vipchat" method="post" enctype="multipart/form-data" class="flex items-center mt-4" onsubmit="return validateForm()">
+    {% if is_admin %}
+        <button type="button" onclick="toggleDeleteMode()" class="delete-button ml-4 text-white bg-gray-600 px-4 py-2 rounded-full hover:bg-gray-500">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    {% endif %}
+    <input type="text" id="message-input" name="message" required placeholder="Type your message here..." class="flex-1 p-3 bg-gray-700 rounded-lg text-white">
+    <div class="file-input-container ml-4">
+        <label class="file-label rounded-full bg-gray-700 text-white flex items-center justify-center" onclick="setFileInput('image-input')">
+            <i class="fas fa-image"></i>
+            <input type="file" id="image-input" name="image" accept="image/*" class="file-input hidden">
+        </label>
+    </div>
+    <div class="file-input-container ml-4">
+        <label class="file-label rounded-full bg-gray-700 text-white flex items-center justify-center" onclick="setFileInput('gift-input')">
+            <i class="fas fa-gift"></i>
+            <input type="file" id="gift-input" name="gift" accept="image/gif" class="file-input hidden">
+        </label>
+    </div>
+    <button type="submit" class="send-button ml-4">Send</button>
+</form>
+<a href="main" class="back-button">Back</a>
+{% endif %}
+</div>
+
+<!-- Script para manipulação de eventos -->
+<script>
+    function scrollToBottom() {
+        const messagesContainer = document.getElementById('messages');
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    window.onload = function() {
+        scrollToBottom();
+    };
+
+    let fileInputId = '';
+
+    function setFileInput(inputId) {
+        fileInputId = inputId;
+    }
+
+    function validateForm() {
+        const messageInput = document.getElementById('message-input');
+        if (fileInputId === 'image-input') {
+            const imageSelectedMessage = document.querySelector('.image-selected-message');
+            if (imageSelectedMessage) {
+                imageSelectedMessage.remove();
+            }
+
+            const fileInput = document.getElementById('image-input');
+            const file = fileInput.files[0];
+            if (file) {
+                const selectedMessage = document.createElement('div');
+                selectedMessage.className = 'image-selected-message text-xs text-green-500';
+                selectedMessage.textContent = `Image selected: ${file.name}`;
+                messageInput.parentNode.insertBefore(selectedMessage, messageInput.nextSibling);
+            }
+        } else if (fileInputId === 'gift-input') {
+            const giftSelectedMessage = document.querySelector('.gift-selected-message');
+            if (giftSelectedMessage) {
+                giftSelectedMessage.remove();
+            }
+
+            const fileInput = document.getElementById('gift-input');
+            const file = fileInput.files[0];
+            if (file) {
+                const selectedMessage = document.createElement('div');
+                selectedMessage.className = 'image-selected-message text-xs text-green-500';
+                selectedMessage.textContent = `Gift selected: ${file.name}`;
+                messageInput.parentNode.insertBefore(selectedMessage, messageInput.nextSibling);
+            }
+        }
+
+        scrollToBottom();
+        return true;
+    }
+
+    function toggleDeleteMode() {
+        const messagesContainer = document.getElementById('messages');
+        messagesContainer.classList.toggle('delete-mode');
+        const checkboxes = document.querySelectorAll('.message-checkbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.classList.toggle('hidden');
+        });
+
+        const deleteButtonIcon = document.querySelector('.delete-button i');
+        if (messagesContainer.classList.contains('delete-mode')) {
+            deleteButtonIcon.classList.remove('fa-trash-alt');
+            deleteButtonIcon.classList.add('fa-check');
+        } else {
+            deleteButtonIcon.classList.remove('fa-check');
+            deleteButtonIcon.classList.add('fa-trash-alt');
+            const selectedCheckboxes = document.querySelectorAll('.message-checkbox:checked');
+            const messageIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-id'));
+            if (messageIds.length > 0) {
+                removeMessages(messageIds);
+            }
+        }
+    }
+
+    function removeMessages(messageIds) {
+        fetch('/remove_vipmessages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ messages: messageIds })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageIds.forEach(messageId => {
+                    const messageContainer = document.querySelector(`.message-container[data-id="${messageId}"]`);
+                    if (messageContainer) {
+                        messageContainer.remove();
+                    }
+                });
+            } else {
+                console.error('Failed to delete messages');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting messages:', error);
+        });
+    }
+</script>
+</body>
+</html>

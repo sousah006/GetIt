@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | PAP PROJECT</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css">
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/StyleMain.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylebar.css') }}">
+    <script src="{{ url_for('static', filename='js/scriptmain.js') }}"></script>
+    
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #video-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px);
+        }
+
+        nav {
+            width: 200px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            color: white;
+            z-index: 2;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: black;
+            border-radius: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            height: 95%;
+            max-width: 1400px;
+            max-height: 900px;
+            overflow: auto;
+        }
+
+        .products {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+        }
+
+        .product {
+            background-color: rgba(255, 255, 255, 0.259);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 250px;
+        }
+
+        .product img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            font-size: 16px;
+            color: #000000;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #1d4ed8;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+
+        .disk {
+            width: 80px;
+            height: 80px;
+            background-color: black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .disk.spinning {
+            animation: spin 2s linear infinite;
+        }
+
+        .music-text {
+            color: white;
+            font-size: 12px;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        footer .disk .disk-image {
+            max-width: 150px !important;
+            height: 100px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .disk button {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div id="video-container">
+        <video autoplay muted loop id="video-background">
+            <source src="{{ url_for('static', filename='images/shop.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+     <!-- Sidebar -->
+     <div id="sidebar" class="sidebar">
+        <div class="logo-details">
+          <i class="bx bx-menu" id="btn" onclick="toggleSidebar()"></i>
+        </div>
+        <ul class="nav-list">
+           
+            <li>
+                <a href="{{ url_for('drop') }}">
+                    <i class="ri-store-3-line"></i>
+                    <span class="links_name">Drops</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('gallery') }}">
+                    <i class="ri-gallery-line"></i>
+                    <span class="links_name">Gallery</span>
+                </a>
+            </li>
+            <li>
+                <a href="main">
+                    <i class="bx bx-arrow-back"></i>
+                    <span class="links_name back-to-main-button">Back to Main</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <div class="products">
+            <div class="product">
+                <h3>GRILLZS T-Shirt</h3>
+                <img src="{{ url_for('static', filename='images/shop/Shirt-Layout.png') }}">
+                <p>Available sizes: S|M|L|XL</p>
+                <p>Oversized / Limited Edition</p>
+                <p>100% cotton made</p>
+                <a href="{{ url_for('grillzs') }}" class="btn btn-primary">More</a>
+            </div>
+            
+
+            <div class="product">
+                <h3>Logo T-Shirt</h3>
+                <img src="{{ url_for('static', filename='images/shop/GetIt Repository.png') }}">
+                <p>Available sizes: S|M|L|XL</p>
+                <p>Oversized / Limited Edition</p>
+                <p>100% cotton made</p>
+                <a href="{{ url_for('logo') }}" class="btn btn-primary">More</a>
+            </div>
+          
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="disk" onclick="toggleMusic()">
+            <img src="{{ url_for('static', filename='images/diskImage.png') }}" alt="Disk" class="disk-image">
+        </div>
+    </footer>
+    
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="{{ url_for('static', filename='images/backgroundMusic.mp3') }}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Função para alternar a música
+        function toggleMusic() {
+            var isMusicPlaying = localStorage.getItem('isMusicPlaying') === 'true';
+            var audio = document.getElementById("background-music");
+            var disk = document.querySelector(".disk");
+    
+            if (!isMusicPlaying) {
+                audio.play();
+                disk.classList.add("spinning");
+                localStorage.setItem('isMusicPlaying', 'true'); // Salva o estado da música
+            } else {
+                audio.pause();
+                disk.classList.remove("spinning");
+                localStorage.setItem('isMusicPlaying', 'false'); // Salva o estado da música
+            }
+        }
+    
+        // Verifica se a música estava tocando antes de mudar de página
+        window.addEventListener('beforeunload', function(event) {
+            var isMusicPlaying = localStorage.getItem('isMusicPlaying') === 'true';
+            if (isMusicPlaying) {
+                localStorage.setItem('shouldResumeMusic', 'true'); // Define a flag para continuar a música na próxima página
+            } else {
+                localStorage.removeItem('shouldResumeMusic'); // Remove a flag se a música não estava tocando
+            }
+        });
+    
+    </script>
+    
+    
+
+</body>
+</html>

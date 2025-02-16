@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | PAP PROJECT</title>
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css">
+    <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/3.5.0/remixicon.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/StyleMain.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stylebar.css') }}">
+    <script src="{{ url_for('static', filename='js/scriptmain.js') }}"></script>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Move the video behind the content */
+        }
+
+        #video-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px); /* Apply a blur effect to the video */
+        }
+
+        nav {
+            width: 200px;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            color: white;
+            z-index: 2; /* Ensure the sidebar is on top */
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+            border-radius: 10px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 2; /* Ensure the disk is on top */
+        }
+
+        .gallery-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 400px;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .gallery-item h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .gallery-item p {
+            font-size: 16px;
+        }
+        .email-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email-form input[type="email"],
+.email-form button {
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.email-form input[type="email"] {
+    width: 250px;
+}
+
+.email-form button {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.email-form button:hover {
+    background-color: #0056b3;
+}
+
+h1 {
+    font-size: 3em; /* Adjust the size as needed */
+}
+
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div id="video-container">
+        <video autoplay muted id="video-background">
+            <source src="{{ url_for('static', filename='images/galleryBackground.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <div class="logo-details">
+          <i class="bx bx-menu" id="btn" onclick="toggleSidebar()"></i>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a href="{{ url_for('index_shop') }}">
+                    <i class="ri-home-3-line"></i>
+                    <span class="links_name">Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('drop') }}">
+                    <i class="ri-store-3-line"></i>
+                    <span class="links_name">Drops</span>
+                </a>
+            </li>
+            <li>
+                <a href="main">
+                    <i class="bx bx-arrow-back"></i>
+                    <span class="links_name back-to-main-button">Back to Main</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Audio -->
+    <audio id="background-music" loop>
+        <source src="{{ url_for('static', filename='images/backgroundMusic.mp3') }}" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <main>
+        <h1>GetIt-Gallery</h1>
+        <br><br><br><br>
+        <div class="gallery-item">
+            <h2>ERROR 404</h2>
+            <p>This page is not available yet.</p>
+        </div>
+        <br><br>
+        <div class="gallery-item">
+            <h2>Notification</h2>
+            <p>To be notified when the page is available, insert your email.</p>
+            <form action="#" method="post" class="email-form" onsubmit="return submitForm()">
+                <input type="email" name="email" id="email" placeholder="Your email address" required>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <br><br><br><br><br><br>
+        <div id="thank-you-message" style="display: none;">Thank you for your submission!</div>
+    </main>~
+    
+    
+    
+
+    <script>
+        function submitForm() {
+            var emailInput = document.getElementById("email");
+            var thankYouMessage = document.getElementById("thank-you-message");
+
+            // Exibe a mensagem de agradecimento
+            thankYouMessage.style.display = "block";
+
+            // Limpa o campo de e-mail após o envio
+            emailInput.value = "";
+
+            // Impede o envio do formulário tradicional
+            return false;
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8; /* Increase line-height for more space between lines */
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: -1;
+        }
+
+        .container {
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            border-radius: 10px;
+            padding: 30px; /* Increase padding for more space around text */
+            margin: 40px auto; /* Increase margin for more space outside the container */
+            max-width: 800px;
+        }
+
+        h1, h2, h3 {
+            color: white;
+            margin-bottom: 20px; /* Increase bottom margin for more space between headings and text */
+        }
+
+        p, ul, li {
+            color: #a0aec0;
+            margin-bottom: 20px; /* Increase bottom margin for more space between paragraphs and lists */
+        }
+
+        a {
+            color: #63b3ed;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">Resources Page</h1>
+    </header>
+    <div class="container">
+        <h1>Resources Page</h1>
+        <p>Welcome to the resources page of our repository site. Below are some useful resources related to our projects and topics of interest:</p>
+
+        <h2>1. Documentation</h2>
+        <p>Access the official documentation for our projects to learn more about their features and usage:</p>
+        <ul>
+            
+        </ul>
+
+        <h2>2. Tutorials</h2>
+        <p>Explore tutorials and guides that provide step-by-step instructions for using our projects:</p>
+        <ul>
+          
+        </ul>
+
+        <h2>3. Forums and Communities</h2>
+        <p>Engage with other users and developers in forums and communities dedicated to our projects:</p>
+        <ul>
+          
+        </ul>
+
+        <h2>4. Additional Resources</h2>
+        <p>Explore additional resources related to topics covered by our projects:</p>
+        <ul>
+          
+        </ul>
+    </div>
+    <a href="{{ url_for('main') }}" class="back-button">Back</a>
+</body>
+</html>

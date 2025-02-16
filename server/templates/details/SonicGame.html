@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonic-Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Adds a translucent dark background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Soft shadow to highlight content */
+        }
+
+        .game-video {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Prevents video from exceeding container bounds */
+            margin-bottom: 20px;
+        }
+
+        .game-images {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .game-images img {
+            width: calc(33.33% - 20px); /* Three images per row (minus margins) */
+            max-width: 250px;
+            height: auto;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        .game-images img:nth-last-child(-n+2) {
+            width: calc(50% - 20px); /* Two images per row (minus margins) */
+            max-width: 400px; /* Adjusted width for the last two images */
+        }
+
+        .text-container {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Shadow on title for emphasis */
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sonic-Game</h1>
+
+        <div class="game-images">
+            <img src="{{ url_for('static', filename='images/sonic1.png') }}" alt="sonic1">
+            <img src="{{ url_for('static', filename='images/sonic2.png') }}" alt="sonic2">
+            <img src="{{ url_for('static', filename='images/sonic3.png') }}" alt="sonic3">
+            <img src="{{ url_for('static', filename='images/sonic4.png') }}" alt="sonic4">
+            <img src="{{ url_for('static', filename='images/sonic5.png') }}" alt="sonic5">
+        </div>
+
+        <div class="game-video">
+            <video controls class="game-video">
+                <source src="{{ url_for('static', filename='images/sonicgame.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <p>"Sonic-Game is an inspired version of the classic platform game starring Sonic the Hedgehog. Developed by a passionate fan, the game captures the essence of speed and adventure that defines the series."</p>
+
+            <p><strong>Features:</strong></p>
+            <ul>
+                <li>Fast-paced gameplay with Sonic's characteristic speed.</li>
+                <li>Diverse levels with challenging obstacles and enemies.</li>
+                <li>Collect rings to gain points and extra lives.</li>
+            </ul>
+
+            <p><strong>History:</strong></p>
+            <p>Sonic the Hedgehog was created by Sega in 1991 as a response to Nintendo's Mario. It became a flagship franchise and a symbol of the Sega Genesis console's success, captivating gamers worldwide with its vibrant graphics and engaging gameplay.</p>
+        </div>
+
+        <div class="credits">
+            <p>Developed by Gonçalo Pereira</p>
+            <p>&copy; 2024 Sonic-Game. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index4') }}" class="back-button">Back</a>
+</body>
+</html>

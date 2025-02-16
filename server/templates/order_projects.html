@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordered Projects</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-/TczlNBzRmQo2sQH2EhA3Tzhbq4jsu7POYjkC+6iaIo6Vv6T5peD6d3AlKD7jTfGN1aiZhK02p/Q9RkJTQ2x9g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05) 0px, rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px, transparent 20px);
+            z-index: -1;
+        }
+
+        .content {
+            max-width: 1000px;
+            width: 100%;
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            width: 100%;
+            padding: 40px;
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        .form-container h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a0aec0;
+        }
+
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #4a5568;
+            border-radius: 4px;
+            background-color: #2d3748;
+            color: white;
+            resize: vertical;
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #2c5282;
+        }
+
+        .admin-table-container {
+            width: 100%;
+            max-width: 1000px;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+
+        .admin-table th {
+            background-color: #2d3748;
+        }
+
+        .admin-table td {
+            background-color: #2a303c;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .delete-mode {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .delete-mode .admin-table td:last-child {
+            text-align: center;
+        }
+
+        .delete-mode .admin-table .delete-button {
+            display: block;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .delete-mode .admin-table .delete-button:hover {
+            background-color: #c53030;
+        }
+
+        .delete-mode .back-button {
+            background-color: #2d3748;
+        }
+
+        .form-container .delete-button {
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+        }
+
+        .form-container .delete-button:hover {
+            background-color: #c53030;
+        }
+
+        .form-container .delete-button i {
+            margin-right: 5px;
+        }
+
+        .success-message {
+            background-color: #38a169;
+            color: white;
+            border: 1px solid #2f855a;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none; /* Inicialmente oculto */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="content">
+        <div class="form-container">
+            <h2>Order a Project</h2>
+            <form id="orderForm" action="{{ url_for('order_projects') }}" method="POST">
+                <div class="mb-4">
+                    <label for="project_details" class="block">Project Specifics:</label>
+                    <textarea id="project_details" name="project_details" rows="10" placeholder="Type here..."
+                        required></textarea>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Save Order"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    {% if is_admin %}
+                    <button type="button" class="delete-button" onclick="toggleDeleteMode()">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+        {% if is_admin %}
+        <!-- Tabela de Pedidos de Projeto -->
+        <div class="admin-table-container">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User ID</th>
+                        <th>Details</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in project_orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.user_id }}</td>
+                        <td>{{ order.details }}</td>
+                        <td>{{ order.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modo de exclusão, visível apenas para administradores -->
+        <div class="delete-mode">
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User ID</th>
+                            <th>Details</th>
+                            <th>Timestamp</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in project_orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.user_id }}</td>
+                            <td>{{ order.details }}</td>
+                            <td>{{ order.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>
+                                <input type="checkbox" name="delete_order" value="{{ order.id }}">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="text-center">
+                <button id="deleteSelected"
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    Delete Selected
+                </button>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Mensagem de sucesso -->
+        <div id="successMessage" class="success-message">
+            Order saved successfully!
+        </div>
+
+        <a href="{{ url_for('main') }}" class="back-button">Back</a>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"
+        integrity="sha512-fzIXXX1dZqT4QfzfBYb4ahSg5qTDgb1Yq/PlFgj8ueOaM2L8Vl3XreOvqXlRz5lj6cCk8YnTxgIQW5RzyJb8VQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        function toggleDeleteMode() {
+            const deleteMode = document.querySelector('.delete-mode');
+            deleteMode.classList.toggle('delete-mode');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteSelectedButton = document.getElementById('deleteSelected');
+            const successMessage = document.getElementById('successMessage');
+            const orderForm = document.getElementById('orderForm');
+
+            // Handle delete selected button click
+            deleteSelectedButton.addEventListener('click', function () {
+                const checkboxes = document.querySelectorAll('input[name="delete_order"]:checked');
+                const orderIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+
+                if (orderIds.length === 0) {
+                    alert('Please select at least one order to delete.');
+                    return;
+                }
+
+                if (!confirm(`Are you sure you want to delete ${orderIds.length} selected orders?`)) {
+                    return;
+                }
+
+                fetch('/delete_orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ order_ids: orderIds })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Selected orders deleted successfully.');
+                            location.reload(); // Refresh the page after deletion
+                        } else {
+                            alert('Error deleting orders: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting orders:', error);
+                        alert('Error deleting orders. Please try again.');
+                    });
+            });
+
+            // Handle form submit
+            orderForm.addEventListener('submit', function (event) {
+                // No need to prevent default form submission
+                // Success message will be shown by the backend
+            });
+        });
+    </script>
+</body>
+
+</html>

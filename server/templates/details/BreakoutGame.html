@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreakoutGame</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .game-image {
+            width: 50%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .game-image img {
+            width: 100%;
+            display: block;
+        }
+        .game-image img:hover {
+            transform: scale(1.05);
+        }
+        .game-video {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Evita que o vídeo ultrapasse os limites do contêiner */
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .game-video video {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Evita que o vídeo ultrapasse os limites do contêiner */
+        }
+        .text-container {
+            text-align: left;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BreakoutGame</h1>
+        <br>
+
+        <div class="game-image">
+            <img src="{{ url_for('static', filename='images/breakout.png') }}" alt="Breakout Game Screenshot">
+        </div>
+
+        <div class="game-video">
+            <video controls>
+                <source src="{{ url_for('static', filename='images/breakoutgame.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <div class="game-overview">
+                <h2>Game Overview:</h2>
+                <p><strong>BreakoutGame</strong> is a classic arcade game where you control a paddle to bounce a ball and break bricks. It tests your reflexes and aiming skills as you try to clear each level.</p>
+            </div>
+
+            <div class="how-to-play">
+                <h2>How to Play:</h2>
+                <ul>
+                    <li>Move the paddle left and right using the arrow keys or swipe gestures.</li>
+                    <li>Bounce the ball off the paddle to hit and break the bricks above.</li>
+                    <li>Avoid letting the ball fall below the paddle to keep playing.</li>
+                </ul>
+            </div>
+
+            <p>Enjoy the classic arcade experience with BreakoutGame!</p>
+
+            <div class="development">
+                <h2>Development and Legacy:</h2>
+                <p>BreakoutGame has been a staple of arcade gaming since its inception, influencing numerous games and becoming a beloved classic. It continues to be enjoyed by players of all ages.</p>
+                <p>Explore the nostalgia and challenge of BreakoutGame today!</p>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>GetIt</p>
+            <p>&copy; 2024 BreakoutGame. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index1') }}" class="back-button">Back</a>
+</body>
+</html>

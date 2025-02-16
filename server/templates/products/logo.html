@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo T-Shirt</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1F2937;
+        }
+
+        .container {
+            background-color: #2D3748;
+        }
+
+        .image-wrapper {
+            width: 300px; /* Tamanho ajustado */
+        }
+
+        @media (min-width: 768px) {
+            .image-wrapper {
+                width: 450px; /* Tamanho ajustado para telas maiores */
+            }
+        }
+
+        .content {
+            font-size: 1.3rem; /* Ajuste o tamanho da fonte principal */
+        }
+
+        .content p {
+            line-height: 1.8;
+            margin-bottom: 1rem; /* Espaçamento entre parágrafos */
+        }
+
+        @media (min-width: 768px) {
+            .content {
+                font-size: 1.4rem; /* Ajuste para telas maiores */
+            }
+        }
+
+        .share-link {
+            cursor: pointer;
+            color: #3182ce;
+            transition: color 0.3s ease;
+        }
+
+        .share-link:hover {
+            color: #2c5282;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+
+<body class="text-white flex items-center justify-center h-screen">
+    <div class="max-w-5xl mx-auto bg-gray-800 p-8 rounded-lg shadow-md flex items-center">
+        <div class="image-wrapper mr-8">
+            <img src="{{ url_for('static', filename='images/shop/GetIt Repository.png') }}" class="max-w-full">
+        </div>
+        <div class="md:w-2/3">
+            <div class="text-5xl font-bold mb-8">Logo T-Shirt</div>
+            <div class="text-2xl text-gray-400 mb-8">Regular price: €45,00 EUR</div>
+            <div class="mb-8">Tax included.</div>
+            <div class="mb-8">
+                <label for="size" class="block font-medium text-gray-400">Size</label>
+                <select id="size" name="size"
+                    class="mt-2 block w-full py-3 px-4 border border-gray-600 bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-lg">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+            </div>
+            <div class="mb-8">
+                <label for="quantity" class="block font-medium text-gray-400">Quantity (1 in cart)</label>
+                <p>Don´t forget to change the quantity in the payment phase</p>
+                <div class="flex mt-2">
+                    <button onclick="decreaseQuantity()"
+                        class="px-4 py-3 bg-gray-600 text-gray-400 rounded-l-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">-</button>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1"
+                        class="px-4 py-3 bg-gray-700 border border-gray-600 rounded-none w-20 text-center text-gray-400">
+                    <button onclick="increaseQuantity()"
+                        class="px-4 py-3 bg-gray-600 text-gray-400 rounded-r-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">+</button>
+                </div>
+            </div>
+            <div class="mb-8">
+                <button id="buy-now-btn"
+                    class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 ml-2">Buy it
+                    now</button>
+            </div>
+            <div class="mb-8 content">
+                <p class="font-medium text-gray-400">Oversized</p>
+                <p class="font-medium text-gray-400">100% cotton.</p>
+            </div>
+            <div class="mb-8 content">
+                <p class="font-medium text-gray-400">[5] in stock</p>
+                <p class="share-link" onclick="copyLink()">Share</p>
+            </div>
+        </div>
+    </div>
+    <a href="shop" class="back-button">Back</a>
+    <script>
+        function decreaseQuantity() {
+            var quantity = document.getElementById('quantity');
+            if (quantity.value > 1) {
+                quantity.value--;
+            }
+        }
+
+        function increaseQuantity() {
+            var quantity = document.getElementById('quantity');
+            quantity.value++;
+        }
+
+        function copyLink() {
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            alert("Link copied to clipboard: " + window.location.href);
+        }
+
+        // Redirecionar para URLs diferentes com base no tamanho selecionado
+        document.getElementById('buy-now-btn').addEventListener('click', function () {
+            var selectedSize = document.getElementById('size').value;
+            switch (selectedSize) {
+                case 'S':
+                    window.location.href = 'https://buy.stripe.com/test_00g17V2IrdTv50cbIM';
+                    break;
+                case 'M':
+                    window.location.href = 'https://buy.stripe.com/test_7sI6sf1EncPr1O0149';
+                    break;
+                case 'L':
+                    window.location.href = 'https://buy.stripe.com/test_5kA17V2Ir16J78k8wC';
+                    break;
+                case 'XL':
+                    window.location.href = 'https://buy.stripe.com/test_7sIbMzcj19Df2S49AH';
+                    break;
+                default:
+                    // Pode adicionar um alerta se nenhum tamanho válido for selecionado
+                    // alert('Please select a size to proceed with purchase.');
+                    break;
+            }
+        });
+    </script>
+</body>
+
+</html>
+

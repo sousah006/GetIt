@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Need For Speed Most Wanted Black Edition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .images {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .images img {
+            width: 32%;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .images img:nth-child(4),
+        .images img:nth-child(5) {
+            width: 49%;
+        }
+
+        .images img:hover {
+            transform: scale(1.05);
+        }
+
+        .video {
+            width: 100%;
+            max-width: 1000px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .video video {
+            width: 100%;
+            height: auto;
+        }
+
+        .text-container {
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Need For Speed Most Wanted Black Edition</h1>
+        <br>
+
+        <div class="images">
+            <img src="{{ url_for('static', filename='images/nfs1.png') }}" alt="Need For Speed Most Wanted Screenshot 1">
+            <img src="{{ url_for('static', filename='images/nfs2.png') }}" alt="Need For Speed Most Wanted Screenshot 2">
+            <img src="{{ url_for('static', filename='images/nfs3.png') }}" alt="Need For Speed Most Wanted Screenshot 3">
+            <img src="{{ url_for('static', filename='images/nfs4.png') }}" alt="Need For Speed Most Wanted Screenshot 4">
+            <img src="{{ url_for('static', filename='images/nfs5.png') }}" alt="Need For Speed Most Wanted Screenshot 5">
+        </div>
+
+        <div class="video">
+            <video controls>
+                <source src="{{ url_for('static', filename='videos/nfs_video.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <div class="game-overview">
+                <h2>Game Overview:</h2>
+                <p><strong>Need For Speed Most Wanted Black Edition</strong> is an exhilarating racing game where players compete to become the most notorious street racer in Rockport City. This edition includes exclusive cars, races, and additional customization options.</p>
+            </div>
+
+            <div class="how-to-play">
+                <h2>How to Play:</h2>
+                <ul>
+                    <li>Select and customize your car with various performance and visual upgrades.</li>
+                    <li>Compete in races and evade the police to increase your reputation.</li>
+                    <li>Complete challenges to unlock new cars and parts.</li>
+                </ul>
+            </div>
+
+            <p>Experience the thrill of high-speed racing and intense police chases in Need For Speed Most Wanted Black Edition!</p>
+
+            <div class="development">
+                <h2>Development and Legacy:</h2>
+                <p>Created by Gonçalo Pereira, this game is a faithful recreation of the original Need For Speed Most Wanted with added enhancements and features. It captures the essence of the original while providing new content for fans to enjoy.</p>
+                <p>Join the race, build your reputation, and become the Most Wanted!</p>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>Developed by Gonçalo Pereira</p>
+            <p>&copy; 2024 Need For Speed Most Wanted Black Edition. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index5') }}" class="back-button">Back</a>
+</body>
+</html>

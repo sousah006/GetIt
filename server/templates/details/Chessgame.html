@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Adiciona um fundo escuro translúcido */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra suave para destacar o conteúdo */
+        }
+        .game-video {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Evita que o vídeo ultrapasse os limites do contêiner */
+        }
+        .text-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* Sombra no título para destacar */
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            z-index: 100; /* Garante que o botão esteja acima de outros elementos */
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chess Game</h1>
+
+        <div class="game-video">
+            <video controls class="game-video">
+                <source src="{{ url_for('static', filename='images/chessgame.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <div class="game-overview">
+                <h2>Game Overview:</h2>
+                <p><strong>Chess</strong> is a strategic board game played between two players. It's known for its complexity and depth, requiring skillful planning and tactical thinking.</p>
+            </div>
+
+            <div class="how-to-play">
+                <h2>How to Play:</h2>
+                <ul>
+                    <li>Each player controls an army of pieces including pawns, rooks, knights, bishops, queens, and a king.</li>
+                    <li>The objective is to checkmate the opponent's king, which means the king is under attack and cannot escape capture.</li>
+                    <li>Players take turns to make moves according to specific rules for each piece.</li>
+                </ul>
+            </div>
+
+            <p>Enjoy the intellectual challenge of this timeless classic!</p>
+
+            <div class="development">
+                <h2>Development and Legacy:</h2>
+                <p>Chess has a long history dating back to ancient times and has evolved into its modern form over centuries. It remains a cornerstone of strategic games and is widely studied and played worldwide.</p>
+                <p>Explore the strategies and cultural impact of Chess, a game of kings and queens.</p>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>GetIt</p>
+            <p>&copy; 2024 Chess Game. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('index1') }}" class="back-button">Back</a>
+</body>
+</html>

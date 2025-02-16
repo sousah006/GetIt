@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: -1;
+        }
+
+        .container {
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+
+        .container h1, .container h2, .container h3 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .container p, .container ul {
+            color: #a0aec0;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #63b3ed;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        pre {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-pattern"></div>
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">Security Page</h1>
+    </header>
+    <div class="container">
+        <h1>Security Page</h1>
+        <p>Welcome to the security page of our repository site. We take security seriously and strive to provide a safe environment for our users. Below are the guidelines and policies regarding the security of our projects and the platform.</p>
+
+        <h2>1. Reporting Security Issues</h2>
+        <p>If you discover any security vulnerabilities or issues within our projects, please report them immediately. We appreciate your help in keeping our community safe.</p>
+
+        <h3>How to Report:</h3>
+        <ul>
+            <li>Email us at: <a href="mailto:GetItrepository@gmail.com">GetItrepository@gmail.com</a></li>
+            <li>Include a detailed description of the issue, including steps to reproduce if possible.</li>
+            <li>Do not publicly disclose the vulnerability until we have had a chance to address it.</li>
+        </ul>
+
+        <h2>2. Security Best Practices</h2>
+        <p>When using our projects, please follow these security best practices:</p>
+
+        <h3>For Users:</h3>
+        <ul>
+            <li><strong>Verify Downloads:</strong> Always verify the integrity of downloaded files. We provide checksums for our zip files.</li>
+            <li><strong>Keep Updated:</strong> Regularly check for updates to ensure you have the latest security patches.</li>
+            <li><strong>Use Secure Channels:</strong> Download project files using secure channels (HTTPS).</li>
+        </ul>
+
+        <h3>For Contributors:</h3>
+        <ul>
+            <li><strong>Code Review:</strong> Submit code changes through pull requests and ensure they are reviewed by maintainers.</li>
+            <li><strong>Secure Coding:</strong> Follow secure coding guidelines to prevent introducing vulnerabilities.</li>
+            <li><strong>Testing:</strong> Test your code for security issues before submitting.</li>
+        </ul>
+
+        <h2>3. Integrity Verification</h2>
+        <p>To ensure the integrity of our projects, we provide checksums for each downloadable zip file. Verify the checksums to ensure files have not been tampered with.</p>
+
+        <h3>Example:</h3>
+        <pre>
+SHA256: abc123def456ghi789...
+        </pre>
+
+        <h2>4. Security Updates</h2>
+        <p>We release security updates promptly when vulnerabilities are discovered. Stay informed by subscribing to our mailing list or following our repository for updates.</p>
+    </div>
+    <a href="{{ url_for('main') }}" class="back-button">Back</a>
+</body>
+
+</html>

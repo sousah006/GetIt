@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waiting Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4a5568;
+            color: white;
+        }
+        td {
+            background-color: #2d3748;
+            color: white;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .icon-button {
+            background-color: transparent;
+            color: #a0aec0;
+            transition: color 0.3s ease;
+        }
+
+        .icon-button:hover {
+            color: #cbd5e0;
+        }
+    </style>
+</head>
+<body class="bg-gray-800 text-white">
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">Waiting Users</h1>
+    </header>
+    <div class="container mx-auto mt-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="mb-4">
+                    {% for category, message in messages %}
+                        <div class="p-4 mb-2 {% if category == 'error' %}bg-red-500{% elif category == 'success' %}bg-green-500{% else %}bg-blue-500{% endif %} text-white rounded">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <h2 class="text-2xl font-semibold mb-4">Basic Plan Users</h2>
+        <table class="mb-8">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in basic_plan_users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <form action="{{ url_for('remove_waiting_user') }}" method="post" onsubmit="return confirmDelete()">
+                        <input type="hidden" name="plan" value="basic">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" class="icon-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2 class="text-2xl font-semibold mb-4">Gold Plan Users</h2>
+        <table class="mb-8">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in gold_plan_users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <form action="{{ url_for('remove_waiting_user') }}" method="post" onsubmit="return confirmDelete()">
+                        <input type="hidden" name="plan" value="gold">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" class="icon-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2 class="text-2xl font-semibold mb-4">Diamond Plan Users</h2>
+        <table class="mb-8">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            {% for user in diamond_plan_users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <form action="{{ url_for('remove_waiting_user') }}" method="post" onsubmit="return confirmDelete()">
+                        <input type="hidden" name="plan" value="diamond">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <button type="submit" class="icon-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <a href="{{ url_for('main') }}" class="back-button">Back</a>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this user?');
+        }
+    </script>
+</body>
+</html>

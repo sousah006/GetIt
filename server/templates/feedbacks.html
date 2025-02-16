@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedbacks</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: -1;
+        }
+
+        .feedback-item {
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feedback-item:hover {
+            background-color: #2d3748;
+        }
+
+        .feedback-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4a5568;
+        }
+
+        .user-name {
+            color: #ffffff;
+        }
+
+        .message {
+            color: #a0aec0;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .delete-button {
+            background: none;
+            border: none;
+            color: inherit;
+            padding: 0;
+            cursor: pointer;
+            font-size: 1.5rem; /* Tamanho do ícone da lixeira */
+        }
+
+        .delete-button:hover {
+            color: #e53e3e; /* Cor de hover opcional para indicar interatividade */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800 text-white">
+    <div class="background-pattern"></div>
+
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">Feedbacks</h1>
+    </header>
+
+    <div id="feedbacksContainer" class="container mx-auto p-5 rounded-lg shadow-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 animate-fadeIn">
+        <!-- Feedbacks will be dynamically added here -->
+    </div>
+
+    <a href="main" class="back-button">Back</a>
+
+    <script>
+        // Function to fetch feedbacks from the server
+        function getFeedbacks() {
+            fetch('/get_feedbacks', {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Call the function to display feedbacks with the received data
+                displayFeedbacks(data);
+            })
+            .catch(error => {
+                console.error('Error fetching feedbacks:', error);
+            });
+        }
+
+        // Function to add feedback items to the HTML
+        function displayFeedbacks(feedbackData) {
+            var feedbacksContainer = document.getElementById("feedbacksContainer");
+            feedbacksContainer.innerHTML = ""; // Clear existing content
+            feedbackData.forEach(function(feedback) {
+                var feedbackItem = document.createElement("div");
+                feedbackItem.className = "feedback-item rounded p-6 flex-1 shadow-sm transition-transform transform hover:-translate-y-1 hover:shadow-lg";
+                feedbackItem.innerHTML = `
+                    <div class="user-name font-bold mb-2 text-gray-800 flex items-center">
+                        ${feedback.user.username}
+                    </div>
+                    <div class="message break-words text-gray-600">${feedback.message}</div>
+                    <button class="delete-button absolute top-2 right-2" onclick="deleteFeedback(${feedback.id})">&#128465;</button>
+                `;
+                feedbacksContainer.appendChild(feedbackItem);
+            });
+        }
+
+        // Function to delete feedback with confirmation
+        function deleteFeedback(feedbackId) {
+            // Display a confirmation message
+            if (confirm("Are you sure, You want to delete this feedback?")) {
+                // If confirmed, execute the deletion
+                fetch(`/delete_feedback/${feedbackId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Re-fetch and display the feedbacks after deletion
+                        getFeedbacks();
+                    } else {
+                        console.error('Error deleting feedback');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting feedback:', error);
+                });
+            }
+        }
+
+        // Call the function to fetch feedbacks when the page loads
+        getFeedbacks();
+    </script>
+</body>
+</html>

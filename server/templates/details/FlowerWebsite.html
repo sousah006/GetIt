@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fresh-Flowers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2d3748;
+            color: white;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .images {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .images img {
+            width: 32%;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            margin-bottom: 10px;
+        }
+        .images img:nth-child(4), .images img:nth-child(5) {
+            width: 48%;
+        }
+        .images img:hover {
+            transform: scale(1.05);
+        }
+        .text-container {
+            text-align: left;
+            margin-top: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #cbd5e0;
+        }
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .credits {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #cbd5e0;
+        }
+        video {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            border-radius: 5px;
+            overflow: hidden; /* Evita que o vídeo ultrapasse os limites do contêiner */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fresh-Flowers</h1>
+        <br>
+
+        <div class="images">
+            <img src="{{ url_for('static', filename='images/flower1.png') }}" alt="Fresh Flower 1">
+            <img src="{{ url_for('static', filename='images/flower2.png') }}" alt="Fresh Flower 2">
+            <img src="{{ url_for('static', filename='images/flower3.png') }}" alt="Fresh Flower 3">
+            <img src="{{ url_for('static', filename='images/flower4.png') }}" alt="Fresh Flower 4">
+            <img src="{{ url_for('static', filename='images/flower5.png') }}" alt="Fresh Flower 5">
+        </div>
+
+        <div class="video">
+            <video controls class="video">
+                <source src="{{ url_for('static', filename='images/flowers.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="text-container">
+            <div class="website-overview">
+                <h2>Website Overview:</h2>
+                <p><strong>Fresh-Flowers</strong> is your go-to destination for purchasing the freshest and most beautiful flowers online. Whether you need a bouquet for a special occasion or just want to brighten someone's day, we have the perfect flowers for you.</p>
+            </div>
+
+            <div class="how-to-use">
+                <h2>How to Use:</h2>
+                <ul>
+                    <li>Browse our wide selection of flowers and choose your favorites.</li>
+                    <li>Add your selected flowers to your cart and proceed to checkout.</li>
+                    <li>Customize your order with a personal message and delivery details.</li>
+                </ul>
+            </div>
+
+            <p>Experience the joy of fresh flowers delivered to your doorstep with Fresh-Flowers!</p>
+
+            <div class="features">
+                <h2>Features and Benefits:</h2>
+                <p>Fresh-Flowers offers a variety of features to ensure you get the best flowers for any occasion. Our user-friendly website and excellent customer service make shopping for flowers a breeze.</p>
+                <p>Explore our range and find the perfect flowers to make your moments memorable.</p>
+            </div>
+        </div>
+
+        <div class="credits">
+            <p>GetIt</p>
+            <p>&copy; 2024 Fresh-Flowers. All rights reserved.</p>
+        </div>
+    </div>
+
+    <a href="{{ url_for('main') }}" class="back-button">Back</a>
+</body>
+</html>

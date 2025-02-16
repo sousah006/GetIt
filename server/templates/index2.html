@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Pages</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2d3748;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05) 0px,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px,
+                transparent 20px
+            );
+            z-index: -1;
+        }
+
+        .plus-icon {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            cursor: pointer;
+        }
+
+        .game-block {
+            background-color: #1a202c;
+            border: 2px solid #4a5568;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-block:hover {
+            background-color: #2d3748;
+        }
+
+        .game-block::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4a5568;
+        }
+
+        .game-title {
+            color: #ffffff;
+        }
+
+        .game-description {
+            color: #a0aec0;
+        }
+
+        .download-button {
+            background-color: #3182ce;
+        }
+
+        .download-button:hover {
+            background-color: #2c5282;
+        }
+
+        .details-button {
+            background-color: #4a5568;
+        }
+
+        .details-button:hover {
+            background-color: #2d3748;
+        }
+
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4a5568;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #2d3748;
+        }
+
+        .game-block img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-gray-800 text-white">
+    <div class="background-pattern"></div>
+    <header class="bg-gray-700 p-4 text-center">
+        <h1 class="text-3xl font-bold">WebPages</h1>
+    </header>
+
+    <div class="container mx-auto mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for file in files %}
+                <div class="game-block rounded p-6 mb-6 relative">
+                    <h2 class="game-title text-xl font-semibold mb-2">{{ file.title }}</h2>
+                    <p class="game-description text-gray-400">{{ file.description }}</p>
+                    {% if file.photo_filename %}
+                        <img src="{{ url_for('uploads', filename='photos/' ~ file.photo_filename) }}" alt="Image" class="mt-4 max-w-full">
+                    {% endif %}
+
+                    <div class="flex justify-between mt-4">
+                        <a href="{{ url_for('download_file', filename=file.filename, destination='index2') }}" class="download-button px-4 py-2 text-white rounded hover:bg-blue-600 transition duration-300">
+                            Download
+                        </a>
+                        <a href="{{ url_for('details', filename=file.details.split('.')[0]) }}" class="details-button px-4 py-2 text-white rounded hover:bg-gray-600 transition duration-300">
+                            Details
+                        </a>
+                        {% if logged_in %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="plus-icon absolute top-0 right-0 mt-2 mr-2 {% if file.id in savedProjects %} saved {% endif %}" viewBox="0 0 24 24" onclick="saveFile('{{ file.id }}')" data-file-id="{{ file.id }}">
+                            <path d="M12 5v14m-7-7h14" />
+                        </svg>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="main" class="back-button">Back</a>
+
+    <script>
+        let savedProjects = [];
+
+        function fetchSavedProjects() {
+            // Limpar a lista de projetos salvos antes de atualizar
+            savedProjects = [];
+
+            // Fetch atualizado para obter a lista de projetos salvos do servidor
+            fetch('/get_saved_projects')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Atualiza savedProjects com os projetos salvos do servidor
+                        savedProjects = data.saved_projects.reduce((acc, val) => {
+                            acc[val.username] = val.projects.map(p => p.file_id.toString());
+                            return acc;
+                        }, {});
+                        updateSavedIcons();
+                        // Salva a lista atualizada no localStorage
+                        localStorage.setItem('savedProjects', JSON.stringify(savedProjects));
+                    } else {
+                        console.error('Failed to load saved projects:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching saved projects:', error);
+                });
+        }
+
+        function updateSavedIcons() {
+            const plusIcons = document.querySelectorAll('.plus-icon');
+            plusIcons.forEach(icon => {
+                const fileId = icon.getAttribute('data-file-id');
+                const currentUser = "{{ current_user.username }}";
+                if (savedProjects[currentUser] && savedProjects[currentUser].includes(fileId.toString())) {
+                    icon.classList.add('saved');
+                } else {
+                    icon.classList.remove('saved');
+                }
+            });
+        }
+
+        function saveFile(fileId) {
+            var username = "{{ current_user.username }}"; // Certifique-se de que current_user.username está corretamente definido no template
+
+            // Verificar se o arquivo já está salvo
+            if (savedProjects[username] && savedProjects[username].includes(fileId.toString())) {
+                alert('Este projeto já está salvo.');
+                return;
+            }
+
+            fetch('/save_project', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        file_id: fileId,
+                        username: username,
+                        destination: 'index2' // Adiciona a origem ao salvamento
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Project Saved Successfully');
+                        // Atualizar a lista de projetos salvos
+                        if (!savedProjects[username]) {
+                            savedProjects[username] = [];
+                        }
+                        savedProjects[username].push(fileId.toString());
+                        // Salvar a lista atualizada no localStorage
+                        localStorage.setItem('savedProjects', JSON.stringify(savedProjects));
+                        // Atualizar os ícones de mais na interface
+                        updateSavedIcons();
+                    } else {
+                        alert('Error saving the project: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving the project:', error);
+                    alert('Error saving the project. Please, try again.');
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchSavedProjects);
+    </script>
+</body>
+</html>
